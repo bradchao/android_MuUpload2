@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 public class MyCameraActivity extends AppCompatActivity {
+    private Camera camera;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +25,28 @@ public class MyCameraActivity extends AppCompatActivity {
         int num = Camera.getNumberOfCameras();
         Log.v("brad", "camera:" + num);
 
+        camera = Camera.open();
+
+        Camera.Parameters params =  camera.getParameters();
+
+        //camera.takePicture(new MyShutter(),null,new MyJpegCallback());
+
+        //camera.release();
+
     }
+//    private class MyShutter implements Camera.ShutterCallback {
+//        @Override
+//        public void onShutter() {
+//
+//        }
+//    }
+
+//    private class MyJpegCallback implements Camera.PictureCallback {
+//        @Override
+//        public void onPictureTaken(byte[] data, Camera camera) {
+//
+//        }
+//    }
 
     private int checkCameraNumber(){
 //        PackageManager packageManager = getPackageManager();
