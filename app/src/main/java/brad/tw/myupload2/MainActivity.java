@@ -1,6 +1,7 @@
 package brad.tw.myupload2;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
@@ -91,7 +92,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void camera(View v){
-
+        Intent it = new Intent(this, MyCameraActivity.class);
+        startActivity(it);
     }
 
     private class UIHandler extends Handler {
