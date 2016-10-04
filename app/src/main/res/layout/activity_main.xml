@@ -22,4 +22,9 @@
         android:layout_height="wrap_content"
         android:onClick="test1"
         android:text="Test 1" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="camera"
+        android:text="Camera" />
 </LinearLayout>

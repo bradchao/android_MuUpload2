@@ -1,6 +1,9 @@
 package brad.tw.myupload2;
 
+import android.app.ProgressDialog;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +20,8 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private File sdroot;
+    private ProgressDialog pDialog;
+    private UIHandler handler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +29,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         sdroot = Environment.getExternalStorageDirectory();
+
+        pDialog = new ProgressDialog(this);
+        pDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        pDialog.setTitle("Downloading...");
+
+        handler = new UIHandler();
+
     }
 
     public void newFile(View v){
@@ -58,25 +70,36 @@ public class MainActivity extends AppCompatActivity {
         }.start();
     }
     public void test1(View v){
+        pDialog.show();
         new Thread(){
             @Override
             public void run() {
                 super.run();
                 try {
                     MultipartUtility mu =
-                            new MultipartUtility("http://m.coa.gov.tw/OpenData/FarmerMarketData.aspx", "UTF-8");
+                            new MultipartUtility("http://data.coa.gov.tw/Service/OpenData/EzgoAttractions.aspx", "UTF-8");
                     List<String> ret = mu.finish();
                     for (String line : ret){
                         Log.v("brad", line.length() + ":" + line);
                     }
-
-
+                    handler.sendEmptyMessage(0);
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    handler.sendEmptyMessage(0);
                 }
             }
         }.start();
+    }
 
+    public void camera(View v){
+
+    }
+
+    private class UIHandler extends Handler {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            pDialog.dismiss();
+        }
     }
 
 }
