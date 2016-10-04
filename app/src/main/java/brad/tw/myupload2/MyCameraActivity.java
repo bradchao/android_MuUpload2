@@ -12,6 +12,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import java.util.List;
+
 public class MyCameraActivity extends AppCompatActivity {
     private Camera camera;
     private FrameLayout frame;
@@ -33,6 +35,15 @@ public class MyCameraActivity extends AppCompatActivity {
         camera = Camera.open();
 
         Camera.Parameters params =  camera.getParameters();
+
+        List<Camera.Size> sizes = params.getSupportedPictureSizes();
+        for (Camera.Size size :sizes){
+            Log.v("brad", size.width + "x" +size.height);
+        }
+
+        params.setPictureSize(1280,720);
+        camera.setParameters(params);
+
 
         //camera.takePicture(new MyShutter(),null,new MyJpegCallback());
 
