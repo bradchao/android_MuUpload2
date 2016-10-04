@@ -8,9 +8,13 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.FrameLayout;
 
 public class MyCameraActivity extends AppCompatActivity {
     private Camera camera;
+    private FrameLayout frame;
+    private CameraPreview preview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +36,20 @@ public class MyCameraActivity extends AppCompatActivity {
         //camera.takePicture(new MyShutter(),null,new MyJpegCallback());
 
         //camera.release();
+
+        frame = (FrameLayout)findViewById(R.id.activity_my_camera);
+        frame.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        preview = new CameraPreview(this, camera);
+        frame.addView(preview);
+
+
+
 
     }
 //    private class MyShutter implements Camera.ShutterCallback {
