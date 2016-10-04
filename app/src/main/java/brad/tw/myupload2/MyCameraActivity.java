@@ -1,6 +1,7 @@
 package brad.tw.myupload2;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
 import android.support.v4.app.ActivityCompat;
@@ -41,7 +42,7 @@ public class MyCameraActivity extends AppCompatActivity {
         frame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                camera.takePicture(new MyShutter(),null,new MyJpegCallback());
             }
         });
 
@@ -52,19 +53,22 @@ public class MyCameraActivity extends AppCompatActivity {
 
 
     }
-//    private class MyShutter implements Camera.ShutterCallback {
-//        @Override
-//        public void onShutter() {
-//
-//        }
-//    }
+    private class MyShutter implements Camera.ShutterCallback {
+        @Override
+        public void onShutter() {
+            Log.v("brad", "onShutter");
+        }
+    }
 
-//    private class MyJpegCallback implements Camera.PictureCallback {
-//        @Override
-//        public void onPictureTaken(byte[] data, Camera camera) {
-//
-//        }
-//    }
+    private class MyJpegCallback implements Camera.PictureCallback {
+        @Override
+        public void onPictureTaken(byte[] data, Camera camera) {
+            Intent it = new Intent();
+            it.putExtra("pic", data);
+            setResult(1,it);
+            finish();
+        }
+    }
 
     private int checkCameraNumber(){
 //        PackageManager packageManager = getPackageManager();

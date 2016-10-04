@@ -2,6 +2,7 @@ package brad.tw.myupload2;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
@@ -9,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -23,11 +25,14 @@ public class MainActivity extends AppCompatActivity {
     private File sdroot;
     private ProgressDialog pDialog;
     private UIHandler handler;
+    private ImageView img;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        img = (ImageView)findViewById(R.id.img);
 
         sdroot = Environment.getExternalStorageDirectory();
 
@@ -93,7 +98,14 @@ public class MainActivity extends AppCompatActivity {
 
     public void camera(View v){
         Intent it = new Intent(this, MyCameraActivity.class);
-        startActivity(it);
+        startActivityForResult(it,1);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        byte[] pic = data.getByteArrayExtra("pic");
+        img.setImageBitmap(BitmapFactory.decodeByteArray(pic,0,pic.length));
     }
 
     private class UIHandler extends Handler {
