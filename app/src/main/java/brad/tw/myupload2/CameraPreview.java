@@ -40,11 +40,27 @@ public class CameraPreview extends SurfaceView implements  SurfaceHolder.Callbac
 
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+        if (holder.getSurface() == null) return;
+
+        try {
+            mCamera.stopPreview();
+        }catch (Exception e){
+
+        }
+        //
+        try {
+            mCamera.setPreviewDisplay(holder);
+            mCamera.startPreview();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
-
+        mCamera.release();
+        mCamera = null;
     }
 }
