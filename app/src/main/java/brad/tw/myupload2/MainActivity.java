@@ -3,6 +3,7 @@ package brad.tw.myupload2;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -12,6 +13,7 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private File sdroot;
@@ -47,15 +49,34 @@ public class MainActivity extends AppCompatActivity {
                     MultipartUtility mu =
                             new MultipartUtility("http://www.brad.tw/iii2003/upload.php", "UTF-8");
                     mu.addFilePart("upload", new File(sdroot.getAbsolutePath() + "/brad.txt"));
-                    mu.finish();
+                    List<String> ret = mu.finish();
 
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
-
             }
         }.start();
+    }
+    public void test1(View v){
+        new Thread(){
+            @Override
+            public void run() {
+                super.run();
+                try {
+                    MultipartUtility mu =
+                            new MultipartUtility("http://m.coa.gov.tw/OpenData/FarmerMarketData.aspx", "UTF-8");
+                    List<String> ret = mu.finish();
+                    for (String line : ret){
+                        Log.v("brad", line.length() + ":" + line);
+                    }
+
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
+
     }
 
 }
